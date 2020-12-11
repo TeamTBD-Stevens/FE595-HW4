@@ -22,11 +22,6 @@ df_bos.head()
 df_features = df_bos.drop("MEDV",1)
 df_target = df_bos["MEDV"]
 
-# to figure out how much impact each factor has on the target
-# variable, we need to apply a few different feature
-# selection methods
-
-
 # create a linear regression model
 model = LinearRegression()
 model.fit(df_features, df_target)
@@ -41,12 +36,12 @@ model.predict([[-1,3,5,7,8,9,2,4,3,2,4,7,2]])
 # find the correlation coefficient of the model
 model.score(df_features, df_target)
 
-# filter method using pearson correlation
-pearson = abs(df_bos.corr()['MEDV'])
-print(pearson.sort_values(ascending=False))
-
-# it should be noted that some of these features may be
-# highly correlated with each other.
+# store the coefficients next to corresponding feature
+# names
+coef_df = pd.DataFrame()
+coef_df['coefficient'] = np.abs(model.coef_)
+coef_df['feature'] = bos.feature_names
+print(coef_df.sort_values(by='coefficient', ascending=False))
 
 
 
